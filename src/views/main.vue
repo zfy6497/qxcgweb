@@ -1,23 +1,23 @@
 <template>
-  <div id="app">
-    <p>main</p>
-    <router-view/>
-  </div>
+<div class="main">
+	  <phhead />
+	<router-view></router-view>
+	  <phfoot></phfoot>
+</div>
 </template>
-
 <script>
+import phhead from "./components/head.vue"
+import phfoot from "./components/foot.vue"
 export default {
-  name: 'App'
-}
-</script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+    components:{
+		phhead,
+		phfoot
+	},
+	data(){
+		return{
+
+		}
+	}
+};
+</script>

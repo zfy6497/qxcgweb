@@ -15,3 +15,22 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
+
+
+
+
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+ 
+# Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+ 
+# My configurations:
+db.ini

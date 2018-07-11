@@ -11,3 +11,6 @@ const RouterConfig = {
 
 var router = new VueRouter(RouterConfig)
 export default router
+router.afterEach((to) => {
+  window.scrollTo(0, 0)
+})

@@ -5,17 +5,23 @@
   "author": "zfy6497 <649761896@qq.com>",
   "private": true,
   "scripts": {
+    "build": "node build/build.js",
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
-    "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
-    "build": "node build/build.js"
+    "start": "npm run dev",
+    "test": "npm run unit && npm run e2e",
+    "unit": "jest --config test/unit/jest.conf.js --coverage"
   },
   "dependencies": {
+    "js-cookie": "^2.2.0",
+    "js-md5": "^0.7.3",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "swiper": "^4.3.3",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
