@@ -42,12 +42,15 @@ export default {
           var data = res.data;
           if (data.resultCode == "0") {
             console.log(data);
-            Cookies.set("user", this.userName);
-            Cookies.set("token", data.data.Token);
-            Cookies.set("mmnum", data.data.MemberID);
+            Cookies.set("qxweb_name", this.userName, { expires: 30});
+            Cookies.set("qxweb_token", data.data.Token, { expires: 30 });
+            Cookies.set("qxweb_mmnum", data.data.MemberID, { expires: 30 });
+            Cookies.set("qxweb_photo", data.data.Photo, { expires: 30 });
             vm.$store.commit("loginin", {
               token: data.data.Token,
-              id: data.data.MemberID
+              id: data.data.MemberID,
+              name:vm.userName,
+              photo:data.data.Photo
             });
             vm.$router.push({ name: "home" }); //店长登录首页可修改
           } else {

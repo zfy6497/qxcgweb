@@ -7,7 +7,7 @@ export const loginRouter = {
   meta: {
     title: 'Login - 登录'
   },
-  component: resolve => { require(['@/views/login.vue'], resolve) }
+  component: resolve => { require(['@/views/templogin.vue'], resolve) }
 }
 export const logintempRouter = {
   path: '/templogin',
@@ -63,7 +63,7 @@ export const pcRouter = {
     { path: '/cart', title: { i18n: 'cart' }, name: 'cart', component: resolve => { require(['@/views/Cart/index.vue'], resolve) } },
     { path: '/collectionproduct', title: { i18n: 'collectionproduct' }, name: 'collectionproduct', component: resolve => { require(['@/views/CollectionProduct/index.vue'], resolve) } },
     { path: '/classify', title: { i18n: 'classify' }, name: 'classify_index', component: resolve => { require(['@/views/Classify/Index.vue'], resolve) } },
-    { path: '/classifylist', title: { i18n: 'classifylist' }, name: 'classify_list', component: resolve => { require(['@/views/Classify/List.vue'], resolve) } },
+    { path: '/classifylist/:id?/:keyword?', title: { i18n: 'classifylist' }, name: 'classify_list', component: resolve => { require(['@/views/Classify/List.vue'], resolve) } },
     { path: '/threelist', title: { i18n: 'threelist' }, name: 'classify_threelist', component: resolve => { require(['@/views/Classify/Threelist.vue'], resolve) } },
     { path: '/integral', title: { i18n: 'integral' }, name: 'integral', component: resolve => { require(['@/views/Integral/Index.vue'], resolve) } },
     { path: '/integralmall', title: { i18n: 'integralmall' }, name: 'integralmall', component: resolve => { require(['@/views/IntegralMall/Index.vue'], resolve) } },
@@ -75,7 +75,11 @@ export const pcRouter = {
     { path: '/search', title: { i18n: 'search' }, name: 'search', component: resolve => { require(['@/views/Search/Index.vue'], resolve) } },
     { path: '/service', title: { i18n: 'service' }, name: 'service', component: resolve => { require(['@/views/Service/Index.vue'], resolve) } },
     { path: '/userorders', title: { i18n: 'userorders' }, name: 'userorders', component: resolve => { require(['@/views/User/Orders.vue'], resolve) } },
-    { path: '/userreckoning', title: { i18n: 'userreckoning' }, name: 'userreckoning', component: resolve => { require(['@/views/User/Reckoning.vue'], resolve) } }
+    { path: '/userreckoning', title: { i18n: 'userreckoning' }, name: 'userreckoning', component: resolve => { require(['@/views/User/Reckoning.vue'], resolve) } },
+    { path: '/integralorders', title: { i18n: 'integralorders' }, name: 'integralorders', component: resolve => { require(['@/views/IntegralMall/Orders.vue'], resolve) } },
+    { path: '/newlist/:id?', title: { i18n: 'newlist' }, name: 'newlist', component: resolve => { require(['@/views/News/Index.vue'], resolve) } },
+    { path: '/ordersuccess/:id?', title: { i18n: 'ordersuccess' }, name: 'ordersuccess', component: resolve => { require(['@/views/Products/success.vue'], resolve) } },
+    { path: '/newdetail/:id?', title: { i18n: 'newdetail' }, name: 'newdetail', component: resolve => { require(['@/views/News/Detail.vue'], resolve) } }
   ]
 }
 

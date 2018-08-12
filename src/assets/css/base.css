@@ -69,7 +69,7 @@ body{background:#f6f6f6;}
 .h-service .number{color:#2379e4; font-weight: bold; font-size:20px; line-height: 26px;} 
 .header-mn .ct{position: relative;height:186px;}
 .h-nav{position: absolute; left:0; bottom:0; width:100%; height: 40px; line-height: 40px; }
-.h-nav-menu{width:200px; float: left; position: relative;}
+.h-nav-menu{width:200px; float: left; position: relative;z-index: 20;}
 .h-nav-menu .menu-top{width:100%; height:40px; background:#05a0e3; text-align: center; font-size:18px; font-weight: bold; color:#fff; cursor: pointer;}
 .h-nav-menu .menu-top .menu-icon{width:20px; height:16px; display: inline-block; margin-right: 6px; background:url(/static/images/icon/icon.png) no-repeat 0 -25px; vertical-align: middle; margin-top:-2px; }
 .h-nav-menu .nav-menu-li{height:576px;}
@@ -87,7 +87,7 @@ body{background:#f6f6f6;}
 
 .footer{background:#0069ac; height: 242px; clear: both; }
 .footer-nav{height:42px; line-height: 40px; width:1200px; margin:0 auto; border-bottom:1px solid #003f67;box-shadow: 0 1px 1px #007ccb; text-align: center;}
-.footer-nav a{display: inline-block; margin:0 20px; font-size:14px; color:#fff;}
+.footer-nav a{display: inline-block; margin:0 20px; font-size:14px; color:#fff!important;}
 .footer-mn{margin:0 auto; width:1200px;}
 .footer-mn .f-left{float: left; width:300px; color:#fff;}
 .footer-mn .f-logo{margin-top:16px;}
@@ -97,10 +97,10 @@ body{background:#f6f6f6;}
 .footer-mn .f-right{float: right; width:870px; margin-top:56px;}
 .footer-mn .f-right img{float: left; width:290px; display: block;}
 
-.footer-link{text-align: center; height: 40px; line-height: 40px; background:#004d7e; color:#fff; font-size:14px;}
-.footer-link a{display: inline-block; margin:0 10px; color:#fff;}
-.footer-info{background:#333; color:#fff; text-align: center; padding:15px 0; font-size:12px; line-height: 2;}
-.footer-info a{display: inline-block; color:#fff; margin:0 10px;}
+.footer-link{text-align: center; height: 40px; line-height: 40px; background:#004d7e; color:#fff!important; font-size:14px}
+.footer-link a{display: inline-block; margin:0 10px; color:#fff!important; }
+.footer-info{background:#333; color:#fff!important; text-align: center; padding:15px 0; font-size:12px; line-height: 2;}
+.footer-info a{display: inline-block; color:#fff!important; margin:0 10px;}
 .footer-info .f-logo-icon{display: inline-block; width:16px; height:16px; background:url(/static/images/icon/icon.png) no-repeat 0 -78px; vertical-align: middle; margin-right: 10px; margin-top:-3px; }
 
 .fix-tool{position: fixed; top:200px; left:50%; margin-left:680px; width:50px; border:1px solid #eaeaea;}
@@ -116,7 +116,7 @@ body{background:#f6f6f6;}
 .fix-tool dl:hover .tool-cart{background-position: 1px -275px;}
 .fix-tool dl:hover .tool-kf{background-position: 1px -330px;}
 .fix-tool dl:hover .tool-user{background-position: 1px -302px;}
-.fix-tool dl dd{position: absolute; width:74px; height:50px; line-height: 50px; color:#fff; font-weight: bold; left:-74px; top:0;background:#05a0e3; font-size:14px; text-align: center; display: none;}
+.fix-tool dl dd{position: absolute; width:74px; height:50px; line-height: 50px; color:#fff; font-weight: bold; left:-74px; top:0;background:#05a0e3; font-size:14px; text-align: center;}
 .fix-tool .ph-rwm{width:160px; height:180px; left:-160px;}
 .fix-tool .ph-rwm .name{line-height: 34px;}
 .fix-tool .ph-rwm img{width:128px; height:128px;}
@@ -128,3 +128,27 @@ body{background:#f6f6f6;}
 .vis-show{visibility:none}
 .image128{width:128px;height: 128px;}
 .image178{width:178px;height: 178px;}
+.image82{width:82px;height: 82px;}
+.image102{width:102px;height: 102px;}
+.active{color: #05a0e3;}
+a, a:link, a:visited, a:active{
+    text-decoration: none;
+    color: #333;
+}
+.gm_bg { background:#f5f5f5;}
+.page_area{font-family:"微软雅黑";font-size:14px;color:#999;text-align:center;margin-top:12px;margin-bottom:53px;}
+.page_area a{display:inline-block;height:34px;line-height:34px;border:1px solid #eee;padding:0 15px;background: #fff;}
+.page_area a.page_prev {color:#ccc;}
+.page_area a.page_num{ color:#333;}
+.page_area a.page_select{ background:#666;color:#fff;}
+.page_area a.page_more{border:none;background:none;}
+.page_area input{width:34px;height:34px;line-height:34px;border:1px solid #eee;text-align:center;margin:0 5px; }
+
+.skuname{
+    color: rgb(114, 112, 112);
+    font-size: 12px;
+}
+.disable{
+    color: #ccc !important;
+}
+

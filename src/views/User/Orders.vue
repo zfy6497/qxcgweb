@@ -1,136 +1,152 @@
 <template>
-    <div class="ct clearfix">
-			<div class="news-leader">当前位置：个人中心</div>
-			<div class="news-content">
-				<div class="person-left fl">
-					
-				</div>
-				
-				<div class="person-item  fr" style="display:block;">
-					<h3>我的订单</h3>
-					<div class="orderNav">
-						<ul>
-							<li class="addcol"><a href="javascript:;">全部</a></li>
-							<li><a href="javascript:;">待发货<em>0</em></a></li>
-							<li><a href="javascript:;">待收货<em>0</em></a></li>
-							<li><a href="javascript:;">已收货<em>0</em></a></li>
-						</ul>
-					</div>
-					<div class="orderItem" style="display:block;">
-						<dl>
-							<dt>
-							<p class="orderDate">2018-06-17</p>
-							<p class="orderNum">订单编号：2654856411</p>
-							</dt>
-							<dd>
-								<div class="rule">
-									<p class="picimg"><img src="/static/images/temp/product_detail.jpg" alt=""></p>
-									<span>维力一次性使用无菌硅胶导尿管双腔标准型18号</span>
-									<em>￥245.00</em>
-									<i>x2</i>
-								</div>
-								<div class="price">490.00</div>
-								<div class="status">待发货</div>
-								<div class="operate"><a href="javascript:;">物流追踪</a></div>
-							</dd>
-						</dl>
-						<dl>
-							<dt>
-							<p class="orderDate">2018-06-17</p>
-							<p class="orderNum">订单编号：2654856411</p>
-							</dt>
-							<dd>
-								<div class="rule">
-									<p class="picimg"><img src="/static/images/temp/product_detail.jpg" alt=""></p>
-									<span>维力一次性使用无菌硅胶导尿管双腔标准型18号</span>
-									<em>￥245.00</em>
-									<i>x2</i>
-								</div>
-								<div class="price">490.00</div>
-								<div class="status">待收货</div>
-								<div class="operate opt"><a href="javascript:;" class="confirm cr">确认收货</a><a href="javascript:;" class="trans">物流追踪</a></div>
-							</dd>
-						</dl>
-						<dl>
-							<dt>
-							<p class="orderDate">2018-06-17</p>
-							<p class="orderNum">订单编号：2654856411</p>
-							</dt>
-							<dd>
-								<div class="rule">
-									<p class="picimg"><img src="/static/images/temp/product_detail.jpg" alt=""></p>
-									<span>维力一次性使用无菌硅胶导尿管双腔标准型18号</span>
-									<em>￥245.00</em>
-									<i>x2</i>
-								</div>
-								<div class="price">490.00</div>
-								<div class="status">已收货</div>
-								<div class="operate"><a href="javascript:;">删除订单</a></div>
-							</dd>
-						</dl>
-					</div>
-					<div class="orderItem"></div>
-					<div class="orderItem"></div>
-					<div class="orderItem">
-						<dl>
-							<dt>
-							<p class="orderDate">2018-06-17</p>
-							<p class="orderNum">订单编号：2654856411</p>
-							</dt>
-							<dd>
-								<div class="rule">
-									<p class="picimg"><img src="/static/images/temp/product_detail.jpg" alt=""></p>
-									<span>维力一次性使用无菌硅胶导尿管双腔标准型18号</span>
-									<em>￥245.00</em>
-									<i>x2</i>
-								</div>
-								<div class="price">490.00</div>
-								<div class="status">待发货</div>
-								<div class="operate"><a href="javascript:;">物流追踪</a></div>
-							</dd>
-						</dl>
-						<dl>
-							<dt>
-							<p class="orderDate">2018-06-17</p>
-							<p class="orderNum">订单编号：2654856411</p>
-							</dt>
-							<dd>
-								<div class="rule">
-									<p class="picimg"><img src="/static/images/temp/product_detail.jpg" alt=""></p>
-									<span>维力一次性使用无菌硅胶导尿管双腔标准型18号</span>
-									<em>￥245.00</em>
-									<i>x2</i>
-								</div>
-								<div class="price">490.00</div>
-								<div class="status">待收货</div>
-								<div class="operate opt"><a href="javascript:;" class="confirm cr">确认收货</a><a href="javascript:;" class="trans">物流追踪</a></div>
-							</dd>
-						</dl>
-						<dl>
-							<dt>
-							<p class="orderDate">2018-06-17</p>
-							<p class="orderNum">订单编号：2654856411</p>
-							</dt>
-							<dd>
-								<div class="rule">
-									<p class="picimg"><img src="/static/images/temp/product_detail.jpg" alt=""></p>
-									<span>维力一次性使用无菌硅胶导尿管双腔标准型18号</span>
-									<em>￥245.00</em>
-									<i>x2</i>
-								</div>
-								<div class="price">490.00</div>
-								<div class="status">已收货</div>
-								<div class="operate"><a href="javascript:;">删除订单</a></div>
-							</dd>
-						</dl>
-					</div>	
-			</div>
-		</div>
-	</div>
+  <div class="ct clearfix">
+    <div class="news-leader">当前位置：个人中心</div>
+    <div class="news-content">
+      <div class="person-left fl">
+        <UserLeft></UserLeft>
+      </div>
+
+      <div class="person-item  fr" style="display:block;">
+        <h3>我的订单</h3>
+        <div class="orderNav">
+          <ul>
+            <li v-for="item in status" :key="item.id" :class="PostData.OrderStatus==item.id?'addcol':'' " @click="PostData.OrderStatus=item.id">
+              <a href="javascript:;">{{item.name}}</a>
+            </li>
+          </ul>
+        </div>
+        <div class="orderItem" style="display:block;" v-if="result">
+          <dl v-for="item in result" :key="item.Id">
+            <dt>
+              <p class="orderDate">{{item.OrderDate | formatDate}}</p>
+              <p class="orderNum">订单编号：{{item.Id}}</p>
+            </dt>
+            <dd v-for="(twoitem,indexid) in item.Items" :key="twoitem.Id">
+              <div class="rule">
+                <p class="picimg">
+                  <router-link :to="'/pdetail/'+twoitem.SkuId"><img class="image102" :src="twoitem.ImageUrl_100" alt=""></router-link>
+                </p>
+                <span>{{twoitem.ProductName}}</span>
+                <em>￥{{twoitem.SalePrice}}</em>
+                <i>x{{twoitem.Quantity}}</i>
+              </div>
+
+              <template v-if="indexid==0">
+                <div class="price">{{item.OrderAmountRedundancy}}</div>
+                <div class="status">{{item.OrderStatusStr}}</div>
+                <div class="operate">
+                  <a v-if="item.OrderStatus==3" href="javascript:;" @click="confirmOrder(item.Id)" class="confirm cr">确认收货</a>
+                </div>
+              </template>
+
+            </dd>
+
+          </dl>
+
+        </div>
+        <page :count-page="totalpage" @search="init"></page>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
+import Util from "../../libs/util.js";
+import UserLeft from "../components/userleft.vue";
+import page from "../components/phpage.vue";
 export default {
-    
-}
+  name: "App",
+  data() {
+    return {
+      result: [],
+      PostData: {
+        OrderStatus: 0,
+        Page: 1,
+        Rows: 10
+      },
+      status: [
+        { id: 0, name: "全部" },
+        { id: 2, name: "待发货" },
+        { id: 3, name: "待收货" },
+        { id: 4, name: "已收货" }
+      ],
+      nowid: 0,
+      totals: 0
+    };
+  },
+  components: {
+    UserLeft,
+    page
+  },
+  computed: {
+    nowstatus() {
+      return this.PostData.OrderStatus;
+    },
+    totalpage() {
+      if (this.totals) {
+        return (
+          parseInt(this.totals / this.PostData.Rows) +
+          (this.totals % this.PostData.Rows > 0 ? 1 : 0)
+        );
+      } else return 0;
+    }
+  },
+  methods: {
+    init: function(page) {
+      var vm = this;
+      if (page && page >= 1) {
+        vm.PostData.Page = page;
+      }
+      Util.post("api/Order/GetOrders", vm.PostData, vm, function(res, data) {
+        let notid = [];
+        if (res === "1") {
+          vm.result = data.data;
+          vm.totals = data.totalCount;
+          console.log(vm.result);
+        } else {
+        }
+      });
+    },
+    confirmOrder: function(orderid) {
+      var vm = this;
+      this.$layer.confirm("是否确认收货？", { btn: ["确定", "取消"] }, function(
+        index
+      ) {
+        vm.confirmfun(orderid);
+        vm.$layer.closeAll();
+      });
+    },
+    confirmfun: function(orderid) {
+      var vm = this;
+      Util.post(
+        "api/Order/MembeConfirmOrder",
+        { OrderId: orderid },
+        vm,
+        function(res, data) {
+          let notid = [];
+          if (res === "1") {
+            vm.$layer.msg("确定收货成功");
+            vm.init();
+          } else {
+            vm.$layer.msg(data);
+          }
+        }
+      );
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  watch: {
+    nowstatus() {
+      this.PostData.Page = 1;
+      this.init();
+    }
+  },
+  filters: {
+    formatDate: function(time) {
+      return Util.formatDate(time, "yyyy-MM-dd hh:mm");
+    }
+  }
+};
 </script>
 

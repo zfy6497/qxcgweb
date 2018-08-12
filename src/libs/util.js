@@ -1,19 +1,20 @@
 import axios from 'axios'
 import md5 from 'js-md5'
+import Cookies from 'js-cookie'
 const env = 'production'
-let util = {
+var util = {
 
 }
 util.title = function (title) {
   title = title || 'iView admin'
   window.document.title = title
 }
-// http://localhost:49659 http://43.247.89.26:8099  http://mmsoft.51jiuqu.com
+// http://localhost:49659 http://43.247.89.26:8099  http://mmsoft.51jiuqu.com http://localhost:44726
 const ajaxUrl = env === 'development'
-  ? 'http://mmsoft.51jiuqu.com'
+  ? 'http://43.247.89.26:8700'
   : env === 'production'
-    ? 'http://localhost:44726'
-    : 'http://mmsoft.51jiuqu.com'
+    ? 'http://43.247.89.26:8700'
+    : 'http://localhost:44726'
 
 util.ajaxUrl = function () {
   return ajaxUrl
@@ -27,7 +28,7 @@ util.ajax = axios.create({
 })
 
 util.inOf = function (arr, targetArr) {
-  let res = true
+  var res = true
   arr.map(item => {
     if (targetArr.indexOf(item) < 0) {
       res = false
@@ -53,7 +54,7 @@ util.showThisRoute = function (itAccess, currentAccess) {
 }
 
 util.getRouterObjByName = function (routers, name) {
-  let routerObj = {}
+  var routerObj = {}
   routers.forEach(item => {
     if (item.name === 'otherRouter') {
       item.children.forEach((child, i) => {
@@ -83,8 +84,8 @@ util.handleTitle = function (vm, item) {
 }
 
 util.setCurrentPath = function (vm, name) {
-  let title = ''
-  let isOtherRouter = false
+  var title = ''
+  var isOtherRouter = false
   vm.$store.state.app.routers.forEach(item => {
     if (item.children.length === 1) {
       if (item.children[0].name === name) {
@@ -104,7 +105,7 @@ util.setCurrentPath = function (vm, name) {
       })
     }
   })
-  let currentPathArr = []
+  var currentPathArr = []
   if (name === 'home_index') {
     currentPathArr = [
       {
@@ -127,13 +128,13 @@ util.setCurrentPath = function (vm, name) {
       }
     ]
   } else {
-    let currentPathObj = vm.$store.state.app.routers.filter(item => {
+    var currentPathObj = vm.$store.state.app.routers.filter(item => {
       if (item.children.length <= 1) {
         return item.children[0].name === name
       } else {
-        let i = 0
-        let childArr = item.children
-        let len = childArr.length
+        var i = 0
+        var childArr = item.children
+        var len = childArr.length
         while (i < len) {
           if (childArr[i].name === name) {
             return true
@@ -165,7 +166,7 @@ util.setCurrentPath = function (vm, name) {
         }
       ]
     } else {
-      let childObj = currentPathObj.children.filter((child) => {
+      var childObj = currentPathObj.children.filter((child) => {
         return child.name === name
       })[0]
       currentPathArr = [
@@ -193,10 +194,10 @@ util.setCurrentPath = function (vm, name) {
 }
 
 util.openNewPage = function (vm, name, argu, query) {
-  let pageOpenedList = vm.$store.state.app.pageOpenedList
-  let openedPageLen = pageOpenedList.length
-  let i = 0
-  let tagHasOpened = false
+  var pageOpenedList = vm.$store.state.app.pageOpenedList
+  var openedPageLen = pageOpenedList.length
+  var i = 0
+  var tagHasOpened = false
   while (i < openedPageLen) {
     if (name === pageOpenedList[i].name) { // 页面已经打开
       vm.$store.commit('pageOpenedList', {
@@ -210,7 +211,7 @@ util.openNewPage = function (vm, name, argu, query) {
     i++
   }
   if (!tagHasOpened) {
-    let tag = vm.$store.state.app.tagsList.filter((item) => {
+    var tag = vm.$store.state.app.tagsList.filter((item) => {
       if (item.children) {
         return name === item.children[0].name
       } else {
@@ -233,9 +234,9 @@ util.openNewPage = function (vm, name, argu, query) {
 }
 
 util.toDefaultPage = function (routers, name, route, next) {
-  let len = routers.length
-  let i = 0
-  let notHandle = true
+  var len = routers.length
+  var i = 0
+  var notHandle = true
   while (i < len) {
     if (routers[i].name === name && routers[i].children && routers[i].redirect === undefined) {
       route.replace({
@@ -258,13 +259,18 @@ util.fullscreenEvent = function (vm) {
 }
 
 util.post = function (purl, pdata, vm, callback) {
-  pdata['ApiUid'] = vm.$store.state.user.id
+  if (vm.$store.state.user.id) {
+    pdata['ApiUid'] = vm.$store.state.user.id
+  }
+  if (vm.$store.state.user.token) {
+    pdata['Token'] = vm.$store.state.user.token
+  }
   // pdata['UserType'] = vm.$store.state.user.type
-  pdata['Token'] = vm.$store.state.user.token
+
   var nlist = ['StartDate', 'EndDate', 'StartTime', 'EndTime', 'GetStartTime', 'GetEndTime']
   var md5list = ['PassWord']
   for (var key in pdata) {
-    let val = pdata[key]
+    var val = pdata[key]
     if (nlist.indexOf(key) >= 0 && val !== '') {
       pdata[key] = util.formatDate(pdata[key]).toString()
     }
@@ -273,93 +279,122 @@ util.post = function (purl, pdata, vm, callback) {
     }
   }
   pdata['Sign'] = util.createsign(pdata, vm.$store.state.app.mmkey)
-  util.ajax.post(purl, pdata).then(res => {
+  var indexid = vm.$layer.loading()
+  util.ajax.post(purl, pdata).then(function (res) {
+    vm.$layer.close(indexid)
     var data = res.data
     if (data.resultCode === 0) {
       callback('1', data)
     } else {
-      if (data.errors === 'token校验失败') {
+      if (data.errors === '登录信息已失效，请重新登录' || data.errors === '请登录') {
         vm.$store.commit('logout', vm)
-        vm.$router.push({
-          name: 'login'
-        })
-      } else { callback('0', data.message) }
+        if (data.isGoLogin) {
+          vm.$layer.msg(data.errors)
+          setTimeout(() => {
+            vm.$router.push({
+              name: 'login'
+            })
+          }, 1000)
+        } else {
+          callback('0', data.errors)
+        }
+      } else {
+        callback('0', data.message)
+      }
     }
-  }).catch(error => {
+  }).catch(function (error) {
+    vm.$layer.close(indexid)
     console.log(error + '   dddderror')
     callback('0')
   })
 }
 
 util.createsign = function (pdata, skey) {
-  let keys = new Array()
-  let i = 0
+  var keys = new Array()
+  var i = 0
   var nlist = ['key', 'Sign', 'StartDate', 'EndDate', 'StartTime', 'EndTime', 'GetStartTime', 'GetEndTime', 'defaultTemplate', 'templates', 'attrs', 'AttrList', 'Skus', 'Items']
   for (var key in pdata) {
-    let val = pdata[key]
-    if (val !== '' && nlist.indexOf(key) < 0) {
+    var val = pdata[key]
+    if (typeof (val) !== 'undefined' && val !== '' && val !== null && nlist.indexOf(key) < 0) {
       keys[i] = key.toUpperCase() + '=' + val
       i++
     }
   }
   var t2 = keys.sort().join('&') + '&key=' + skey
-  console.log(t2)
   return md5(t2).toLowerCase()
 }
 
 util.formatDate = function (date) {
-  let objDate = new Date(date)
+  var objDate = new Date(date + '+0800')
   const y = objDate.getFullYear()
-  let m = objDate.getMonth() + 1
+  var m = objDate.getMonth() + 1
   m = m < 10 ? '0' + m : m
-  let d = objDate.getDate()
+  var d = objDate.getDate()
   d = d < 10 ? ('0' + d) : d
   return y + '-' + m + '-' + d
 }
 
 util.formatDateFull = function (date) {
-  let objDate = new Date(date)
+  var objDate = new Date(date + '+0800')
+  console.log(objDate)
   const y = objDate.getFullYear()
-  let m = objDate.getMonth() + 1
+  var m = objDate.getMonth() + 1
   m = m < 10 ? '0' + m : m
-  let d = objDate.getDate()
+  var d = objDate.getDate()
   d = d < 10 ? ('0' + d) : d
 
-  let h = objDate.getHours()
+  var h = objDate.getHours()
   h = h < 10 ? ('0' + h) : h
 
-  let min = objDate.getMinutes()
+  var min = objDate.getMinutes()
   min = min < 10 ? ('0' + min) : min
 
-  let s = objDate.getSeconds()
+  var s = objDate.getSeconds()
   s = s < 10 ? ('0' + s) : s
 
   return y + '-' + m + '-' + d + ' ' + h + ':' + min + ':' + s
 }
 
 util.formatDateMin = function (date) {
-  let objDate = new Date(date)
+  var objDate = new Date(date + '+0800')
   const y = objDate.getFullYear()
-  let m = objDate.getMonth() + 1
+  var m = objDate.getMonth() + 1
   m = m < 10 ? '0' + m : m
-  let d = objDate.getDate()
+  var d = objDate.getDate()
   d = d < 10 ? ('0' + d) : d
 
-  let h = objDate.getHours()
+  var h = objDate.getHours()
   h = h < 10 ? ('0' + h) : h
 
-  let min = objDate.getMinutes()
+  var min = objDate.getMinutes()
   min = min < 10 ? ('0' + min) : min
 
   return y + '-' + m + '-' + d + ' ' + h + ':' + min
 }
 util.IsLogin = function (_this, showmsg) {
   if (!_this.$store.state.user.id || _this.$store.state.user.id <= 0 || !_this.$store.state.user.token) {
-    _this.$layer.msg('请先登录后再操作')
+    if (showmsg) {
+      _this.$layer.msg('请先登录后再操作')
+    }
+
     return false
   } else {
     return true
   }
 }
-
+util.gologin = function (vm) {
+  util.post('api/User/GetLoginState', {}, vm, function (res, data) {
+    if (res === '1') {
+      var backurl = window.location.href
+      let appid = vm.$store.state.app.appid
+      let loginurl = vm.$store.state.app.wxloginurl
+      let wxredirecturi = vm.$store.state.app.wxredirecturi
+      let gourl = loginurl + 'appid=' + appid + '&redirect_uri=' + wxredirecturi + '&response_type=code&scope=snsapi_login&state=' + data.data + '#wechat_redirect'
+      Cookies.set('backurl', backurl, { expires: 30 })
+      window.location.href = gourl
+    } else {
+      vm.$layer.msg('系统错误，请稍后再试')
+    }
+  })
+}
 export default util
