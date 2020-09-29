@@ -11,10 +11,10 @@ util.title = function (title) {
 }
 // http://localhost:49659 http://43.247.89.26:8099  http://mmsoft.51jiuqu.com http://localhost:44726
 const ajaxUrl = env === 'development'
-  ? 'http://43.247.89.26:8700'
+  ? 'http://47.105.119.62'
   : env === 'production'
-    ? 'http://43.247.89.26:8700'
-    : 'http://localhost:44726'
+    ? 'http://47.105.119.62'
+    : 'http://47.105.119.62'
 
 util.ajaxUrl = function () {
   return ajaxUrl
@@ -23,7 +23,7 @@ util.ajax = axios.create({
   baseURL: ajaxUrl,
   timeout: 30000,
   headers: {
-    'Content-Type': 'application/json; charset=urf-8'
+    'Content-Type': 'application/json; charset=utf-8'
   }
 })
 
@@ -279,6 +279,15 @@ util.post = function (purl, pdata, vm, callback) {
     }
   }
   pdata['Sign'] = util.createsign(pdata, vm.$store.state.app.mmkey)
+  util.submit(purl, pdata, vm, callback)
+}
+
+util.submit = function (purl, pdata, vm, callback, errornum) {
+  var errnum = errornum || 0
+  if (errnum >= 3) {
+    return
+  }
+  console.log('errnum' + errnum)
   var indexid = vm.$layer.loading()
   util.ajax.post(purl, pdata).then(function (res) {
     vm.$layer.close(indexid)
@@ -291,9 +300,10 @@ util.post = function (purl, pdata, vm, callback) {
         if (data.isGoLogin) {
           vm.$layer.msg(data.errors)
           setTimeout(() => {
-            vm.$router.push({
-              name: 'login'
-            })
+            // vm.$router.push({
+            //   name: 'login'
+            // })
+            util.gologin(vm)
           }, 1000)
         } else {
           callback('0', data.errors)
@@ -303,12 +313,15 @@ util.post = function (purl, pdata, vm, callback) {
       }
     }
   }).catch(function (error) {
+    errnum++
+    util.submit(purl, pdata, vm, callback, errnum)
     vm.$layer.close(indexid)
     console.log(error + '   dddderror')
-    callback('0')
+    if (errnum >= 3) {
+      callback('0')
+    }
   })
 }
-
 util.createsign = function (pdata, skey) {
   var keys = new Array()
   var i = 0
@@ -371,12 +384,16 @@ util.formatDateMin = function (date) {
 
   return y + '-' + m + '-' + d + ' ' + h + ':' + min
 }
-util.IsLogin = function (_this, showmsg) {
+util.IsLogin = function (_this, showmsg, isgologin) {
   if (!_this.$store.state.user.id || _this.$store.state.user.id <= 0 || !_this.$store.state.user.token) {
     if (showmsg) {
       _this.$layer.msg('请先登录后再操作')
     }
-
+    if (isgologin) {
+      setTimeout(function () {
+        util.gologin(_this)
+      }, 1000)
+    }
     return false
   } else {
     return true
@@ -396,5 +413,10 @@ util.gologin = function (vm) {
       vm.$layer.msg('系统错误，请稍后再试')
     }
   })
+}
+
+util.istel = function (phone) {
+  let regTel = /([\d]{11}$)|(^0[\d]{2,3}-?[\d]{7,8}$)/
+  return regTel.test(phone)
 }
 export default util

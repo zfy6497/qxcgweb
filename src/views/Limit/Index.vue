@@ -8,6 +8,8 @@
         <div class="date fl" data-time="33537">
           <p class="fl" style="margin-top:6px;">剩余时间:</p>
           <span>
+            <em class="hour">{{timedown.hr}}</em>天</span>
+          <span>
             <em class="hour">{{timedown.hr}}</em>时</span>
           <span>
             <em class="minute">{{timedown.min}}</em>分</span>
@@ -62,6 +64,7 @@ export default {
         let min = parseInt((msec / 1000 / 60) % 60);
         let sec = parseInt((msec / 1000) % 60);
 
+        this.timedown.day = day > 9 ? day : "0" + day;
         this.timedown.hr = hr > 9 ? hr : "0" + hr;
         this.timedown.min = min > 9 ? min : "0" + min;
         this.timedown.sec = sec > 9 ? sec : "0" + sec;

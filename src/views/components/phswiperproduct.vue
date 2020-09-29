@@ -1,7 +1,7 @@
 <template>
     <div class="scroll">
         <swiper :options="swiperOption" ref="mySwiper" >
-            <router-link class="swiper-slide" :to="'pdetail/'+pitem.SkuId"  v-for="pitem in productList" :key="pitem.SkuId">
+            <router-link class="swiper-slide" :to="'/pdetail/'+pitem.SkuId"  v-for="pitem in productList" :key="pitem.SkuId">
             <swiper-slide>
                 
                     <span class="pic"><img class="image178" :src="pitem.ImageUrl_200" /></span>

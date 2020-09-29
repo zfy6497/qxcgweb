@@ -1,6 +1,6 @@
 <template>
     <div class="ct clearfix">
-        <div class="news-leader">当前位置：个人中心</div>
+        <div class="news-leader">当前位置：我的医疗</div>
         <div class="news-content">
             <div class="person-left fl">
                 <UserLeft></UserLeft>

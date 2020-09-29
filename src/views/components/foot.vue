@@ -7,7 +7,7 @@
 				</dt>
 				<dd class="ph-rwm" :class="showtag==1?'':'hid'">
 					<div class="name">扫一扫进入商城小程序</div>
-					<div class="rwm"><img src="/static/images/icon/rwm-img.png" /></div>
+					<div class="rwm"><img src="/static/images/icon/rwm-img.jpg" /></div>
 				</dd>
 			</dl>
 			<dl @mouseover="showtag=2" @mouseout="showtag=0">
@@ -49,9 +49,12 @@
 		<div class="footer">
 			<div class="footer-nav">
 				<router-link to="/">首页</router-link>
-				<router-link to="/classify">药店热销</router-link>
+				<router-link to="/classify1?type=1">医院门诊</router-link>
+				<router-link to="/classify2?type=2">药店热销</router-link>
+				<router-link to="/classify3?type=3">美容专区</router-link>
+				<router-link to="/classify4?type=4">牙科专区</router-link>
 				<router-link to="/integralmall">积分商城</router-link>
-				<router-link to="/limit">限时抢购</router-link>
+				<router-link to="/limit">限时促销</router-link>
 				<router-link to="/">掌上医疗</router-link>
 				<router-link to="/about">关于我们</router-link>
 			</div>
@@ -64,11 +67,11 @@
 				<div class="f-left">
 					<div class="f-logo"><img src="/static/images/icon/f-logo.png" /></div>
 					<div class="f-txt">
-						<p>互联网药品交易服务资格证：浙CC111111</p>
-						<p>互联网药品信息服务资格证：浙CC111111</p>
+						<!-- <p>互联网药品交易服务资格证：浙CC111111</p>
+						<p>互联网药品信息服务资格证：浙CC111111</p> -->
 					</div>
 					<div class="f-tips">企业服务电话：</div>
-					<div class="f-ph">400-8888-8888</div>
+					<div class="f-ph">0571-89168335</div>
 				</div>
 
 			</div>
@@ -86,12 +89,12 @@
 
 		<div class="footer-info">
 			<div class="ct">
-				<p>
+				<!-- <p>
 					<a href="javascript:">医疗经营许可证</a>|
 					<a href="javascript:">公司营业执照</a>|
 					<a href="javascript:">互联网药品交易服务资格证书</a>|
 					<a href="javascript:">互联网药品信息服务资格证书</a>
-				</p>
+				</p> -->
 
 				<p>CopyRight© 2018意料采购平台 　All Rights Reserved 浙ICP备16005904号</p>
 				<p>

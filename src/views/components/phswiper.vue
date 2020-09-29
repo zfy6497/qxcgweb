@@ -3,15 +3,15 @@
     <swiper :options="swiperOption" ref="mySwiper" :style="'width:'+width+'px;'">
       <swiper-slide v-for="item in imgList" :key="item.Id">
         <a :href="item.Url" target="_blank"><img :src="item.ImageUrl" /></a>
-         	<!-- <router-link :to="item.Url"  ><img :src="item.ImageUrl" /></router-link> -->
+        <!-- <router-link :to="item.Url"  ><img :src="item.ImageUrl" /></router-link> -->
       </swiper-slide>
-      <div class="swiper-scrollbar"></div>
+      <!-- <div class="swiper-scrollbar"></div> -->
       <!-- ////滚动条 -->
-      <div class="swiper-button-next"></div>
+      <!-- <div class="swiper-button-next"></div> -->
       <!-- ////下一项 -->
-      <div class="swiper-button-prev"></div>
+      <!-- <div class="swiper-button-prev"></div> -->
       <!-- ////上一项 -->
-      <div class="swiper-pagination"></div>
+      <!-- <div class="swiper-pagination"></div> -->
       <!-- ////标页码 -->
     </swiper>
   </div>
@@ -42,7 +42,7 @@ export default {
         //     disableOnInteraction: true,
         // },
         // 设置轮播
-        effect: "flip",
+        effect: "slide",
         //滑动速度
         speed: 800,
         //滑动方向
@@ -63,12 +63,12 @@ export default {
           el: ".swiper-pagination",
           clickable: true
         },
+        scrollbarHide: false,
+        scrollbarDraggable: true,
         paginationClickable: true,
         reverseDirection: true, //开启反向自动轮播。
         autoplayStopOnLast: false, //当切换到最后一个slide时停止自动切换,
-        autoplayDisableOnInteraction:false,
-
-
+        autoplayDisableOnInteraction: false
       }
     };
   },
@@ -76,13 +76,13 @@ export default {
     imgList: {
       type: Array
     },
-    height:{
-      type:Number,
-      default:460
+    height: {
+      type: Number,
+      default: 460
     },
-    width:{
-      type:Number,
-      default:740
+    width: {
+      type: Number,
+      default: 740
     }
   },
   computed: {
@@ -109,6 +109,5 @@ a {
   color: #42b983;
 }
 .swiper-slide {
-
 }
 </style>

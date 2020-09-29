@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import 'babel-polyfill'
-import 'es6-promise/auto'
+import "babel-polyfill";
+import "es6-promise/auto";
 import Vue from "vue";
 import layer from "vue-layer";
 import Cookies from "js-cookie";
@@ -16,12 +16,12 @@ export default {
   name: "App",
   methods: {
     init() {
-  
       this.$store.commit("loginin", {
         token: Cookies.get("qxweb_token"),
         id: Cookies.get("qxweb_mmnum"),
-        name:Cookies.get("qxweb_name"),
-        photo:Cookies.get("qxweb_photo")
+        name: Cookies.get("qxweb_name"),
+        photo: Cookies.get("qxweb_photo"),
+        issuccess: Cookies.get("qxweb_issuccess")
       });
     }
   },

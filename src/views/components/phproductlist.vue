@@ -47,8 +47,7 @@ export default {
     buy: function(skuid) {
       var vm = this;
       var istrue = true;
-
-      istrue = Util.IsLogin(vm, true);
+      istrue = Util.IsLogin(vm, true,true);
       if (!istrue) {
         return;
       }
@@ -67,10 +66,10 @@ export default {
     },
     FavoriteFun: function(skuid, id) {
       let vm = this;
-      if (!Util.IsLogin(vm, true)) {
+      if (!Util.IsLogin(vm, true,true)) {
         return;
       }
-      var indexid = vm.favorites.indexOf(id);
+      var indexid =vm.favorites?  vm.favorites.indexOf(id):0;
       let url =
         indexid >= 0
           ? "/api/Products/DeleteFavoriteProduct"

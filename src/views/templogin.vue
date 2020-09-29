@@ -50,7 +50,8 @@ export default {
               token: data.data.Token,
               id: data.data.MemberID,
               name:vm.userName,
-              photo:data.data.Photo
+              photo:data.data.Photo,
+              issuccess:data.data.IsSuccess
             });
             vm.$router.push({ name: "home" }); //店长登录首页可修改
           } else {

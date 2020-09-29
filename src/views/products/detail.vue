@@ -3,98 +3,98 @@
     <div class="detail-top">
       <div class="d-t-left">
         <div class="big-pic">
-          <ul >
+          <ul>
             <li>
               <a href="javascript:"><img :src="showimg" /></a>
             </li>
           </ul>
         </div>
         <div class="d-prev" @click="changeimgnum(0)"><img src="/static/images/icon/d-prev.jpg" /></div>
-        <div class="small-pic">
-          <ul>
-            <li v-for="(item,index) in result.ProductInfo.ImagePath.split(',')" :key="item" @click="checkimgid=index">
-              <a href="javascript:"><img :src="item+'_100_100.jpg'" /></a>
-            </li>
-          </ul>
+          <div class="small-pic">
+            <ul>
+              <li v-for="(item,index) in result.ProductInfo.ImagePath.split(',')" :key="item" @click="checkimgid=index">
+                <a href="javascript:"><img :src="item+'_100_100.jpg'" /></a>
+              </li>
+            </ul>
+          </div>
+          <div class="d-next" @click="changeimgnum(1)"><img src="/static/images/icon/d-next.jpg" /></div>
+          </div>
+
+          <div class="d-t-right">
+            <div class="d-t-li">
+              <div class="name ell">{{result.ProductInfo.ProductName}}</div>
+              <div class="tips">{{result.ProductInfo.ShortDescription}}</div>
+            </div>
+            <div class="d-t-li">
+              <dl class="clearfix">
+                <dt class="letter">售 价: </dt>
+                <dd class="price">¥{{BuyShow.ShowPrice}}</dd>
+              </dl>
+              <dl class="clearfix">
+                <dt>生产厂商:</dt>
+                <dd> {{result.ProductInfo.FactoryName}}</dd>
+              </dl>
+              <dl class="clearfix spec">
+                <dt>包装规格: </dt>
+                <dd> {{BuyShow.Specs}}</dd>
+              </dl>
+              <dl class="clearfix">
+                <dt>商品库存: </dt>
+                <dd>{{BuyShow.ShowStock>0?'有库存':'无库存'}}</dd>
+              </dl>
+            </div>
+            <div class="d-t-li" style="border: none;">
+              <dl class="clearfix" v-for="(item,index) in SpeResult" :key="item.Name">
+                <dt>{{item.Name}}：</dt>
+                <dd class="tags">
+                  <a href="javascript:" v-for="val in item.Childs" :key="val.Id" :class="{ active:(Spe1==val.Id||Spe2==val.Id||Spe3==val.Id),disable:val.IsDisable}" v-on:click="checkSpe(index,val.Id,val.AttrValue,val.IsDisable)">{{val.AttrValue}}</a>
+
+                </dd>
+              </dl>
+              <dl class="clearfix">
+                <dt class="letter">数 量：</dt>
+                <dd>
+                  <span class="minus" @click="cutBuyNum()">-</span>
+                  <input type="text" name="" id="" class="num-inp" v-model="PostData.BuyNum" />
+                  <span class="plus" @click="addBuyNum()">+</span>
+                </dd>
+              </dl>
+              <div class="d-t-btn">
+                <a href="javascript:" class="d-buy-btn" @click="buy(1)">一键采购</a>
+                <a href="javascript:" class="d-buycart-btn" @click="buy(0)">加入采购单</a>
+                <a href="javascript:" :class="result.IsFavorite?'collection-btned':'collection-btn'" @click="FavoriteFun">
+                  <span class="coll-icon"></span>{{result.IsFavorite?'已收藏':'收藏'}} </a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="d-next" @click="changeimgnum(1)"><img src="/static/images/icon/d-next.jpg" /></div>
+
+        <div class="detail-mn">
+          <div class="ct clearfix">
+            <div class="recommend-li">
+              <h2>为你推荐</h2>
+              <PhLike :product-list="result.RecommendProducts"></PhLike>
+            </div>
+
+            <div class="detail-info">
+              <div class="detail-info-tabs">
+                <a href="javascript:" :class="checktab===0?'active':''" @click="checktab=0">商品信息</a>
+                <a href="javascript:" :class="checktab===1?'active':''" @click="checktab=1">资质荣誉</a>
+                <a href="javascript:" :class="checktab===2?'active':''" @click="checktab=2">售后保障</a>
+              </div>
+              <div class="detail-info-mn" :style="checktab==0?'display: block;':''" v-html="result.ProductInfo.Description">
+                {{result.ProductInfo.Description}}
+              </div>
+              <div class="detail-info-mn" :style="checktab==1?'display: block;':''" v-html="tabinfo1">
+                {{tabinfo1}}
+              </div>
+              <div class="detail-info-mn" :style="checktab==2?'display: block;':''" v-html="tabinfo2">
+                {{tabinfo2}}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div class="d-t-right">
-        <div class="d-t-li">
-          <div class="name ell">{{result.ProductInfo.ProductName}}</div>
-          <div class="tips">{{result.ProductInfo.ShortDescription}}</div>
-        </div>
-        <div class="d-t-li">
-          <dl class="clearfix">
-            <dt class="letter">售 价: </dt>
-            <dd class="price">¥{{BuyShow.ShowPrice}}</dd>
-          </dl>
-          <dl class="clearfix">
-            <dt>生产厂商:</dt>
-            <dd> {{result.ProductInfo.FactoryName}}</dd>
-          </dl>
-          <dl class="clearfix spec">
-            <dt>包装规格: </dt>
-            <dd> {{result.ProductInfo.Specs}}</dd>
-          </dl>
-          <dl class="clearfix">
-            <dt>商品库存: </dt>
-            <dd>{{BuyShow.ShowStock>0?'有库存':'无库存'}}</dd>
-          </dl>
-        </div>
-        <div class="d-t-li" style="border: none;">
-          <dl class="clearfix" v-for="(item,index) in SpeResult" :key="item.Name">
-            <dt>{{item.Name}}：</dt>
-            <dd class="tags">
-              <a href="javascript:" v-for="val in item.Childs" :key="val.Id" :class="{ active:(Spe1==val.Id||Spe2==val.Id||Spe3==val.Id),disable:val.IsDisable}" v-on:click="checkSpe(index,val.Id,val.AttrValue,val.IsDisable)">{{val.AttrValue}}</a>
-
-            </dd>
-          </dl>
-          <dl class="clearfix">
-            <dt class="letter">数 量：</dt>
-            <dd>
-              <span class="minus" @click="cutBuyNum()">-</span>
-              <input type="text" name="" id="" class="num-inp" v-model="PostData.BuyNum" />
-              <span class="plus" @click="addBuyNum()">+</span>
-            </dd>
-          </dl>
-          <div class="d-t-btn">
-            <a href="javascript:" class="d-buy-btn" @click="buy(1)">立即购买</a>
-            <a href="javascript:" class="d-buycart-btn" @click="buy(0)">加入购物车</a>
-            <a href="javascript:" :class="result.IsFavorite?'collection-btned':'collection-btn'" @click="FavoriteFun">
-              <span class="coll-icon"></span>{{result.IsFavorite?'已收藏':'收藏'}} </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="detail-mn">
-      <div class="ct clearfix">
-        <div class="recommend-li">
-          <h2>为你推荐</h2>
-          <PhLike :product-list="result.RecommendProducts"></PhLike>
-        </div>
-
-        <div class="detail-info">
-          <div class="detail-info-tabs">
-            <a href="javascript:" :class="checktab===0?'active':''" @click="checktab=0">商品信息</a>
-            <a href="javascript:" :class="checktab===1?'active':''" @click="checktab=1">资质荣誉</a>
-            <a href="javascript:" :class="checktab===2?'active':''" @click="checktab=2">售后保障</a>
-          </div>
-          <div class="detail-info-mn" :style="checktab==0?'display: block;':''" v-html="result.ProductInfo.Description">
-            {{result.ProductInfo.Description}}
-          </div>
-          <div class="detail-info-mn" :style="checktab==1?'display: block;':''" v-html="tabinfo1">
-            {{tabinfo1}}
-          </div>
-          <div class="detail-info-mn" :style="checktab==2?'display: block;':''" v-html="tabinfo2">
-            {{tabinfo2}}
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 <script>
 import Util from "../../libs/util.js";
@@ -123,7 +123,8 @@ export default {
       },
       BuyShow: {
         ShowPrice: 0,
-        ShowStock: 0
+        ShowStock: 0,
+        Specs: ""
       },
       SpeResult: [],
       SkuLists: [],
@@ -204,6 +205,7 @@ export default {
           vm.initShow();
           vm.checkActivity(vm.skuid);
         } else {
+          vm.$layer.msg("加载出了点问题，刷新一下试试~");
         }
       });
     },
@@ -238,6 +240,7 @@ export default {
       if (itemtemp && itemtemp.length > 0) {
         vm.BuyShow.ShowPrice = itemtemp[0].ShowPrice;
         vm.BuyShow.ShowStock = itemtemp[0].Stock;
+        vm.BuyShow.Specs = itemtemp[0].Specs;
       }
 
       if (ids.length == 4) {
@@ -338,6 +341,7 @@ export default {
         if (itemtemp.length > 0) {
           vm.BuyShow.ShowPrice = itemtemp[0].ShowPrice;
           vm.BuyShow.ShowStock = itemtemp[0].Stock;
+          vm.BuyShow.Specs = itemtemp[0].Specs;
           vm.PostData.Id = skuid;
           if (vm.PostData.BuyNum > vm.BuyShow.ShowStock) {
             vm.PostData.BuyNum = vm.BuyShow.ShowStock;
@@ -445,7 +449,7 @@ export default {
           }
           break;
       }
-      istrue = Util.IsLogin(vm, true);
+      istrue = Util.IsLogin(vm, true, true);
       if (!istrue) {
         return;
       }
@@ -461,26 +465,31 @@ export default {
         return;
       }
       if (type == 1) {
-        vm.$layer.confirm("确定要购买吗", { btn: ["确定", "取消"] }, function(
-          index
-        ) {
-          Util.post(
-            "api/Order/Save",
-            { skuid: vm.PostData.Id, BuyNum: vm.PostData.BuyNum },
-            vm,
-            function(res, data) {
-              if (res === "1") {
-                vm.$router.push({
-                  name: "ordersuccess",
-                  params: { id: data.data }
-                });
-              } else {
-                vm.$layer.msg(data);
-              }
+        // vm.$layer.confirm("确定要购买吗", { btn: ["确定", "取消"] }, function(
+        //   index
+        // ) {
+
+        // });
+        Util.post(
+          "api/Order/Save",
+          { skuid: vm.PostData.Id, BuyNum: vm.PostData.BuyNum },
+          vm,
+          function(res, data) {
+            if (res === "1") {
+              // vm.$router.push({
+              //   name: "ordersuccess",
+              //   params: { id: data.data }
+              // });
+              vm.$layer.msg("下单成功,请在我的订单查看~");
+              setTimeout(function() {
+                vm.$router.go(-1);
+              }, 1500);
+            } else {
+              vm.$layer.msg(data);
             }
-          );
-          vm.$layer.closeAll();
-        });
+          }
+        );
+        vm.$layer.closeAll();
       } else {
         Util.post(
           "api/Carts/AddToCart",
@@ -488,7 +497,10 @@ export default {
           vm,
           function(res, data) {
             if (res === "1") {
-              vm.$layer.msg("添加成功");
+              vm.$layer.msg("添加成功,在采购单等你~");
+              setTimeout(function() {
+                vm.$router.go(-1);
+              }, 1500);
             } else {
               vm.$layer.msg(data);
             }
@@ -506,7 +518,7 @@ export default {
     },
     FavoriteFun: function() {
       let vm = this;
-      if (!Util.IsLogin(vm, true)) {
+      if (!Util.IsLogin(vm, true, true)) {
         return;
       }
       let url = vm.result.IsFavorite
@@ -525,7 +537,7 @@ export default {
     changeimgnum: function(type) {
       if (type == 1) {
         let nums = this.result.ProductInfo.ImagePath.split(",").length;
-        if (this.checkimgid+1 < nums) {
+        if (this.checkimgid + 1 < nums) {
           this.checkimgid += 1;
         }
       } else {

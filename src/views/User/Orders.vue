@@ -1,6 +1,6 @@
 <template>
   <div class="ct clearfix">
-    <div class="news-leader">当前位置：个人中心</div>
+    <div class="news-leader">当前位置：我的医疗</div>
     <div class="news-content">
       <div class="person-left fl">
         <UserLeft></UserLeft>
@@ -26,9 +26,10 @@
                 <p class="picimg">
                   <router-link :to="'/pdetail/'+twoitem.SkuId"><img class="image102" :src="twoitem.ImageUrl_100" alt=""></router-link>
                 </p>
-                <span>{{twoitem.ProductName}}</span>
+                <span :title="twoitem.ProductName">{{twoitem.ProductName}}</span>
+                <p class="skuname" style=" width: 208px;height: 38px;overflow: hidden;line-height: 19px;float: left; margin: 10px 0 0 40px;">{{twoitem.SpeVal1}}</p>
                 <em>￥{{twoitem.SalePrice}}</em>
-                <i>x{{twoitem.Quantity}}</i>
+                <i>x{{twoitem.Quantity}} <span class="skuname">{{twoitem.SpeVal2}}</span></i>
               </div>
 
               <template v-if="indexid==0">

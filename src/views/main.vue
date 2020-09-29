@@ -1,5 +1,5 @@
 <template>
-<div class="main">
+<div class="main" >
 	  <phhead />
 	<router-view></router-view>
 	  <phfoot></phfoot>

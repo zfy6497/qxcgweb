@@ -1,7 +1,7 @@
 <template>
   <div class="ct" v-if="CartList">
     <div class="cart-til">
-      <span>我的购物车</span>
+      <span>我的采购单</span>
     </div>
     <div class="" v-if="CartList && CartList.length>0">
       <div class=" clearfix">
@@ -23,7 +23,7 @@
                 <img class="fl pic image82" :src="item.ImageUrl_100">
                 <div class="fl">
                   <p class="des">{{item.ProductName}}
-                    <font class="skuname">{{item.SpeValues}}
+                    <font class="skuname">{{item.SpeVal1}}
                     </font>
                     <font v-if="item.Status!=1" style="color:red;">已失效</font>
                   </p>
@@ -37,6 +37,7 @@
                 <a href="javascript:;" v-on:click="cutBuyNum(item.SkuId)" class="sc_btn reduce" style="color: rgb(102, 102, 102);">-</a>
                 <input type="text" v-on:keyup="countProduct(item.SkuId,item.Quantity,item.Stock)" v-model="item.Quantity">
                 <a href="javascript:;" class="sc_btn add" v-on:click="addBuyNum(item.SkuId)">+</a>
+                <span class="skuname" style="margin-left: 5px;"> {{item.SpeVal2}}</span>
               </div>
               <div class="msg4 fl">{{(item.ShowPrice*item.Quantity).toFixed(2)}}</div>
               <div class="msg5 fr" v-on:click="deleteCart(item.SkuId)">
@@ -49,10 +50,10 @@
           <div class="settle_accounts clearfix">
             <div class="settle_l fl">
               <label><input type="checkbox" checked="IsAllCheck" v-model="IsAllCheck"  v-on:click="allCheck">全选</label>
-              <span>
-                <a href="javascript:;" class="delete_link" v-on:click="deleteCart()">删除</a>
-                <a href="javascript:;" v-on:click="clearInvalid">清除失效宝贝</a>
-              </span>
+                <span>
+                  <a href="javascript:;" class="delete_link" v-on:click="deleteCart()">删除</a>
+                  <a href="javascript:;" v-on:click="clearInvalid">清除失效宝贝</a>
+                </span>
             </div>
             <div class="settle_r fr clearfix">
               <span>已选商品{{CheckInfo.Num}}件</span>
@@ -60,7 +61,7 @@
                 <i>￥{{CheckInfo.Price}}</i>
               </span>
               <a href="javascript:;" class="settle_btn submit_btn" v-on:click="GoBuy">
-                <b>结算</b>
+                <b>提交</b>
               </a>
 
             </div>
@@ -73,21 +74,21 @@
 
     <div class="no-cart" v-if="!CartList || CartList.length<=0">
       <div class="no-cart-icon"><img src="/static/images/icon/no-cart-icon.png" /></div>
-      <div class="name" v-if="islogin">购物车空空如也，赶紧去
-        <router-link to="/"> 逛逛吧></router-link>
+        <div class="name" v-if="islogin">采购单空空如也，赶紧去
+          <router-link to="/"> 逛逛吧></router-link>
+        </div>
+        <div class="name" v-else>您还未登录
+          <router-link to="/templogin"> 去登录></router-link>
+        </div>
       </div>
-      <div class="name" v-else>您还未登录
-        <router-link to="/templogin"> 去登录></router-link>
+
+      <div class="you-like-txt">猜你喜欢</div>
+
+      <div class="classify-products" style="padding-bottom: 20px;">
+        <ProductsList :product-list="likelist"></ProductsList>
       </div>
+
     </div>
-
-    <div class="you-like-txt">猜你喜欢</div>
-
-    <div class="classify-products" style="padding-bottom: 20px;">
-      <ProductsList :product-list="likelist"></ProductsList>
-    </div>
-
-  </div>
 </template>
 <script>
 import Util from "../../libs/util.js";
@@ -325,31 +326,32 @@ export default {
         }
       });
 
-      islogin = Util.IsLogin(vm, true);
+      islogin = Util.IsLogin(vm, true, true);
       if (!islogin) {
         return;
       }
 
-      vm.$layer.confirm("是否确认购买？", { btn: ["确定", "取消"] }, function(
-        index
-      ) {
-        Util.post(
-          "api/Order/SaveByCart",
-          { CartIds: ids.toString() },
-          vm,
-          function(res, data) {
-            if (res === "1") {
-              vm.$router.push({
-                name: "ordersuccess",
-                params: { id: data.data }
-              });
-            } else {
-              vm.$layer.msg(data);
-            }
+      // vm.$layer.confirm("是否确认购买？", { btn: ["确定", "取消"] }, function(
+      //   index
+      // ) {
+
+      // });
+      Util.post(
+        "api/Order/SaveByCart",
+        { CartIds: ids.toString() },
+        vm,
+        function(res, data) {
+          if (res === "1") {
+            vm.$router.push({
+              name: "ordersuccess",
+              params: { id: data.data }
+            });
+          } else {
+            vm.$layer.msg(data);
           }
-        );
-        vm.$layer.closeAll();
-      });
+        }
+      );
+      vm.$layer.closeAll();
     },
     getlikelist: function(ids) {
       let vm = this;

@@ -1,18 +1,20 @@
 <template>
     <div>
 
-        <h4>个人中心</h4>
+        <h4>我的医疗</h4>
         <ul class="person-nav">
             <li :class="path==item.url?'active':''" v-for="item in navs" :key="item.name">
                    <router-link :to="item.url"  >{{item.name}}</router-link>
             </li>
         </ul>
-
     </div>
 </template>
 <script>
+
 export default {
   name: "App",
+  components:{
+  },
   data() {
     return {
       path: this.$route.path,
